@@ -7,7 +7,7 @@
  */
 
 #include "precomp.h"
-
+#include "gipoolntfuncs.h"
 HANDLE hKeyboard;
 HANDLE hHeap;
 HANDLE hKey;
@@ -306,7 +306,11 @@ VOID RtlClipProcessMessage(PCHAR Command)
         RtlCliSetCurrentDirectory(argv[0]);
         return;
     }
-    else
+    else if (!_strnicmp(argv[0], CMDSTR("gipool")))
+    {
+        gipoolStartup();
+        return;
+    }
     {
         // Unknown command, try to find an executable and run it.
         WCHAR filename[MAX_PATH] = {0};
